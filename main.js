@@ -1,3 +1,37 @@
+// Data
+const students = [];
+
+const houses = [
+  {
+    name: "Gryffindor",
+    extra: {
+      founder: "Godric Gryffindor",
+      colors: ["scarlet", "gold"],
+    },
+  },
+  {
+    name: "Hufflepuff",
+    extra: {
+      founder: "Helga Hufflepuff",
+      colors: ["yellow", "black"],
+    },
+  },
+  {
+    name: "Ravenclaw",
+    extra: {
+      fullName: "Rowena Ravenclaw",
+      colors: ["blue", "bronze"],
+    },
+  },
+  {
+    name: "Slytherin",
+    extra: {
+      fullName: "Salazar Slytherin",
+      colors: ["green", "silver"],
+    },
+  },
+];
+
 // Global Functions
 const printToDOM = (query, newHTML) => {
   document.querySelector(query).innerHTML = newHTML;
@@ -5,6 +39,16 @@ const printToDOM = (query, newHTML) => {
 
 const createEventListener = (query, callbackFn, action = "click") => {
   document.querySelector(query).addEventListener(action, callbackFn);
+};
+
+const getRandomHouse = () => houses[Math.floor(Math.random() * houses.length)];
+
+const createStudentObj = (studentName) => {
+  return {
+    studentName,
+    house: getRandomHouse(),
+    uuid: uuidv4(),
+  };
 };
 
 // HTML Functions
@@ -34,6 +78,9 @@ const formHTML = () => `
 // Event Callbacks
 const handleSubmitStudentForm = (e) => {
   e.preventDefault();
+  const studentName = document.querySelector("#studentName").value;
+  const studentObj = createStudentObj(studentName);
+  students.push(studentObj);
 };
 
 const handleToggleForm = (e) => {
