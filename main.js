@@ -3,7 +3,11 @@ const printToDOM = (query, newHTML) => {
   document.querySelector(query).innerHTML = newHTML;
 };
 
-// Components
+const createEventListener = (query, callbackFn, action = "click") => {
+  document.querySelector(query).addEventListener(action, callbackFn);
+};
+
+// HTML Functions
 const jumbotronHTML = () =>
   `<div class="jumbotron">
         <h1 class="display-4">Welcome to Hoggy Warts</h1>
@@ -17,16 +21,37 @@ const jumbotronHTML = () =>
         </p>
     </div>`;
 
+const formHTML = () => `
+<form class="needs-validation" novalidate>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Email address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+</form>
+`;
+
+// Event Callbacks
+const handleToggleForm = (e) => {
+  printToDOM("#student-form", formHTML());
+};
+
 // Functions that run initially
+const addInitialEventListeners = () => {
+  createEventListener("#sorting-button", handleToggleForm);
+};
+
 const printInitialHTML = () => {
   const initialHTML = `
     ${jumbotronHTML()}
+    <div id="student-form"></div>
     `;
   printToDOM("#app", initialHTML);
 };
 
 const init = () => {
   printInitialHTML();
+  addInitialEventListeners();
 };
 
 init();
