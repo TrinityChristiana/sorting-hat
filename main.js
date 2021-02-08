@@ -75,6 +75,26 @@ const formHTML = () => `
 </form>
 `;
 
+const studentCardHTML = (studentObj) => `
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">${studentObj.studentName}</h5>
+            <p class="card-text">${studentObj.house.name}</p>
+            <button class="btn btn-primary mb-2" id="expel--${studentObj.uuid}">Expel</button>
+        </div>
+    </div>
+`;
+
+const cardListFactory = () => {
+  return students.map((student) => studentCardHTML(student)).join("");
+};
+
+const rerenderCards = () => {
+  const cardsHTML = cardListFactory();
+  console.log(cardsHTML);
+  printToDOM("#student-cards", cardsHTML);
+};
+
 // Event Callbacks
 const handleSubmitStudentForm = (e) => {
   e.preventDefault();
@@ -101,6 +121,7 @@ const printInitialHTML = () => {
   const initialHTML = `
     ${jumbotronHTML()}
     <div id="student-form"></div>
+    <div id="student-cards"></div>
     `;
   printToDOM("#app", initialHTML);
 };
