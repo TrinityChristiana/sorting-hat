@@ -22,18 +22,27 @@ const jumbotronHTML = () =>
     </div>`;
 
 const formHTML = () => `
-<form class="needs-validation" novalidate>
+<form id="submit-sort-student">
     <div class="form-group">
-        <label for="exampleFormControlInput1">Email address</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+        <label for="studentName">Student Name</label>
+        <input type="text" class="form-control" id="studentName" required>
     </div>
-    <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+    <button type="submit" class="btn btn-primary mb-2" >Sort Student</button>
 </form>
 `;
 
 // Event Callbacks
+const handleSubmitStudentForm = (e) => {
+  e.preventDefault();
+};
+
 const handleToggleForm = (e) => {
   printToDOM("#student-form", formHTML());
+  createEventListener(
+    "#submit-sort-student",
+    handleSubmitStudentForm,
+    "submit"
+  );
 };
 
 // Functions that run initially
