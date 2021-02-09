@@ -71,13 +71,9 @@ const jumbotronHTML = () =>
         <hr class="my-4">
         <div class="lead" id="sort-button-container">
             <p>Click the botton below to start sorting students</p>
-
             <button class="btn btn-primary btn-lg" id="sorting-button" role="button">Start Sorting</button>
-            
         </div>
         <div class="lead" id="student-form"></div>
-            
-
     </div>`;
 
 const formHTML = () => `
@@ -109,10 +105,7 @@ const studentCardListHTML = (studentArray) =>
 
 const rerenderCards = () => {
   printToDOM("#student-cards", studentCardListHTML(students));
-  printToDOM(
-    "#student-cards-army",
-    `<h2>Army</h2>${studentCardListHTML(army)}`
-  );
+  printToDOM("#student-cards-army", studentCardListHTML(army));
 };
 
 // Event Callbacks
@@ -151,18 +144,53 @@ const handleCardClick = (e) => {
   }
 };
 
+const handleToggleColumn = (e) => {
+  const targetId = e.target.id;
+  const firstYearsSelector = document.querySelector("#first-years-column");
+  const firstYearsButtonSelector = document.querySelector(
+    "#toggle-first-years"
+  );
+  const voldeysSelector = document.querySelector("#voldeys-column");
+  const voldeysButtonSelector = document.querySelector("#toggle-voldeys-army");
+
+  if (targetId === "toggle-first-years") {
+    firstYearsSelector.classList.remove("first-years-column-hidden");
+    voldeysSelector.classList.add("voldeys-column-hidden");
+    firstYearsButtonSelector.classList.add("active");
+    voldeysButtonSelector.classList.remove("active");
+  } else if (targetId === "toggle-voldeys-army") {
+    firstYearsSelector.classList.add("first-years-column-hidden");
+    voldeysSelector.classList.remove("voldeys-column-hidden");
+    firstYearsButtonSelector.classList.remove("active");
+    voldeysButtonSelector.classList.add("active");
+  }
+};
+
 // Functions that run initially
 const addInitialEventListeners = () => {
   createEventListener("#sorting-button", handleToggleForm);
   createEventListener("#student-cards", handleCardClick);
+  createEventListener("#toggle-voldeys-army", handleToggleColumn);
+  createEventListener("#toggle-first-years", handleToggleColumn);
 };
 
 const printInitialHTML = () => {
   const initialHTML = `
     ${jumbotronHTML()}
-
-    <div id="student-cards"></div>
-    <div id="student-cards-army"></div>
+    <div class="column-toggler">
+        <button id="toggle-first-years" class="column-toggler btn btn-outline-success active">First Years</button>
+        <button id="toggle-voldeys-army" class="column-toggler btn btn-outline-success" type="button" >Voldey's Army</button>
+    </div>
+    <div class="card-containers">
+        <div id="first-years-column" class="card-column">
+            <h2 class="container-heading">First Years</h2>
+            <div class="card-container" id="student-cards"></div>
+        </div>
+        <div id="voldeys-column" class="card-column voldeys-column-hidden"> 
+            <h2 class="container-heading">Voldey's Army</h2>
+            <div class="card-container" id="student-cards-army"></div>
+        </div>
+    </div>
     `;
   printToDOM("#app", initialHTML);
 };
