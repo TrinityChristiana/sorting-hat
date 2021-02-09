@@ -1,3 +1,6 @@
+body {
+  background-color: #e9ecef;
+}
 .column-toggler {
   display: none;
 }
@@ -20,6 +23,55 @@
   justify-content: center;
 }
 
+.student-card {
+  text-align: center;
+}
+.gryffindor-card {
+  background-color: #740001;
+  border: 10px solid #ae0001;
+  color: #c0c0c0;
+}
+.gryffindor-card-button {
+  background-color: #d3a625;
+}
+
+.hufflepuff-card {
+  background-color: #ffdb00;
+  border: 10px solid #fff4b1;
+  color: #000000;
+}
+.hufflepuff-card-button {
+  background-color: #60605c;
+  color: #d6d6d6;
+}
+.ravenclaw-card {
+  background-color: #0e1a40;
+  border: 10px solid #222f5b;
+  color: #c0c0c0;
+}
+.ravenclaw-card-button {
+  background-color: #946b2d;
+}
+
+.slytherin-card {
+  background-color: #1a472a;
+  border: 10px solid #2a623d;
+  color: #aaaaaa;
+}
+.slytherin-card-button {
+  background-color: #5d5d5d;
+  color: #d6d6d6;
+}
+
+.voldey-card {
+  background-color: #1a1411;
+  border: 10px solid #39689c;
+  color: #e7dddd;
+}
+.voldey-card-button {
+  background-color: #740001;
+}
+
 @media only screen and (max-width: 600px) {
   .card-column {
     width: 100%;
@@ -36,5 +88,9 @@
   .column-toggler {
     display: flex;
     justify-content: center;
+    position: sticky;
+    top: 0px;
+    background-color: #e9ecef;
+    z-index: 10;
   }
 }
