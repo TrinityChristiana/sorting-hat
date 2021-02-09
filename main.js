@@ -87,12 +87,64 @@ const studentCardHTML = (studentObj) => `
     </div>
 `;
 
+const cardContainer = () => {
+  const filters = [
+    "Original",
+    "Alphabetically",
+    "House",
+    "Gryffindor",
+    "Hufflepuff",
+    "Ravenclaw",
+    "Slytherin",
+    "Voldemorts",
+  ];
+  return `
+  <div id="option-buttons" class="option-buttons-container">
+      <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Sort By
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      ${filters
+        .map(
+          (filter) =>
+            `<a id="${filter.toLowerCase()}--filter" type="button" class="dropdown-item ${filter.toLowerCase()}-filter-button">${filter}</a>`
+        )
+        .join("")}
+    </div>
+  </div>
+      </div>
+      <div class="column-toggler">
+          <button id="toggle-first-years" class="column-toggler btn btn-outline-success active">First Years</button>
+          <button id="toggle-voldeys-army" class="column-toggler btn btn-outline-success" type="button" >Voldey's Army</button>
+      </div>
+      <div class="card-containers">
+          <div id="first-years-column" class="card-column">
+              <h2 class="container-heading">First Years</h2>
+              <div class="card-container" id="student-cards"></div>
+          </div>
+          <div id="voldeys-column" class="card-column voldeys-column-hidden"> 
+              <h2 class="container-heading">Voldey's Army</h2>
+              <div class="card-container" id="student-cards-army"></div>
+          </div>
+      </div>
+`;
+};
+
 const studentCardListHTML = (studentArray) =>
   studentArray.map((student) => studentCardHTML(student)).join("");
 
 const rerenderCards = (studentsArray = students, armyArray = army) => {
   printToDOM("#student-cards", studentCardListHTML(studentsArray));
   printToDOM("#student-cards-army", studentCardListHTML(armyArray));
+};
+
+const renderCardContainers = () => {
+  printToDOM("#card-container-div", cardContainer());
+  createEventListener("#student-cards", handleCardClick);
+  createEventListener("#toggle-voldeys-army", handleToggleColumn);
+  createEventListener("#toggle-first-years", handleToggleColumn);
+  createEventListener("#option-buttons", handleOptionButtons);
 };
 
 // Event Callbacks
@@ -102,6 +154,7 @@ const handleSubmitStudentForm = (e) => {
   const studentName = studentInput.value;
   studentInput.value = "";
   students.unshift(createStudentObj(studentName));
+  renderCardContainers();
   rerenderCards();
 };
 
@@ -189,6 +242,8 @@ const handleOptionButtons = (e) => {
       );
     } else if (targetId === "voldemorts") {
       [newArmy, newStudents] = filterHouse(army, "voldemort's army");
+    } else if (targetId === "original") {
+      
     } else {
       [newStudents, newArmy] = filterHouse(newStudents, targetId);
     }
@@ -199,47 +254,12 @@ const handleOptionButtons = (e) => {
 // Functions that run initially
 const addInitialEventListeners = () => {
   createEventListener("#sorting-button", handleToggleForm);
-  createEventListener("#student-cards", handleCardClick);
-  createEventListener("#toggle-voldeys-army", handleToggleColumn);
-  createEventListener("#toggle-first-years", handleToggleColumn);
-  createEventListener("#option-buttons", handleOptionButtons);
 };
 
 const printInitialHTML = () => {
-  const filters = [
-    "Original",
-    "Alphabetically",
-    "House",
-    "Gryffindor",
-    "Hufflepuff",
-    "Ravenclaw",
-    "Slytherin",
-    "Voldemorts",
-  ];
   const initialHTML = `
     ${jumbotronHTML()}
-    <div id="option-buttons" class="option-buttons-container">
-    <h2> Sort By: </h2>    
-    ${filters
-      .map(
-        (filter) =>
-          `<button id="${filter.toLowerCase()}--filter" type="button" class="btn ${filter.toLowerCase()}-filter-button">${filter}</button>`
-      )
-      .join("")}
-    </div>
-    <div class="column-toggler">
-        <button id="toggle-first-years" class="column-toggler btn btn-outline-success active">First Years</button>
-        <button id="toggle-voldeys-army" class="column-toggler btn btn-outline-success" type="button" >Voldey's Army</button>
-    </div>
-    <div class="card-containers">
-        <div id="first-years-column" class="card-column">
-            <h2 class="container-heading">First Years</h2>
-            <div class="card-container" id="student-cards"></div>
-        </div>
-        <div id="voldeys-column" class="card-column voldeys-column-hidden"> 
-            <h2 class="container-heading">Voldey's Army</h2>
-            <div class="card-container" id="student-cards-army"></div>
-        </div>
+    <div id="card-container-div">
     </div>
     `;
   printToDOM("#app", initialHTML);
