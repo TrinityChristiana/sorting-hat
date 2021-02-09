@@ -101,7 +101,7 @@ const cardContainer = () => {
   return `
   <div id="option-buttons" class="option-buttons-container">
       <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Sort By
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
