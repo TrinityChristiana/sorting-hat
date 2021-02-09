@@ -139,7 +139,7 @@ const handleCardClick = (e) => {
     );
     const expelledStudent = students.splice(targetStudentIndex, 1);
     army.push(
-      Object.assign({}, ...expelledStudent, deathHouse, { canExpel: false })
+      Object.assign(...expelledStudent, { canExpel: false, house: deathHouse })
     );
     rerenderCards();
   }
