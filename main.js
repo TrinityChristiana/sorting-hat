@@ -1,5 +1,14 @@
 // Data
 const students = [];
+const army = [];
+
+const deathHouse = {
+  name: "Voldemort's Army",
+  extra: {
+    founder: "Godric Gryffindor",
+    colors: ["violet", "black"],
+  },
+};
 
 const houses = [
   {
@@ -48,6 +57,7 @@ const createStudentObj = (studentName) => {
     studentName,
     house: getRandomHouse(),
     uuid: uuidv4(),
+    canExpel: true,
   };
 };
 
@@ -80,16 +90,24 @@ const studentCardHTML = (studentObj) => `
         <div class="card-body">
             <h5 class="card-title">${studentObj.studentName}</h5>
             <p class="card-text">${studentObj.house.name}</p>
-            <button class="btn btn-primary mb-2" id="expel--${studentObj.uuid}">Expel</button>
+            ${
+              studentObj.canExpel
+                ? `<button class="btn btn-primary mb-2" id="expel--${studentObj.uuid}">Expel</button>`
+                : ""
+            }
         </div>
     </div>
 `;
 
-const studentCardListHTML = () =>
-  students.map((student) => studentCardHTML(student)).join("");
+const studentCardListHTML = (studentArray) =>
+  studentArray.map((student) => studentCardHTML(student)).join("");
 
 const rerenderCards = () => {
-  printToDOM("#student-cards", studentCardListHTML());
+  printToDOM("#student-cards", studentCardListHTML(students));
+  printToDOM(
+    "#student-cards-army",
+    `<h2>Army</h2>${studentCardListHTML(army)}`
+  );
 };
 
 // Event Callbacks
@@ -119,7 +137,10 @@ const handleCardClick = (e) => {
     const targetStudentIndex = students.findIndex(
       (student) => student.uuid === itemId
     );
-    students.splice(targetStudentIndex, 1);
+    const expelledStudent = students.splice(targetStudentIndex, 1);
+    army.push(
+      Object.assign(...expelledStudent, { canExpel: false, house: deathHouse })
+    );
     rerenderCards();
   }
 };
@@ -135,6 +156,7 @@ const printInitialHTML = () => {
     ${jumbotronHTML()}
     <div id="student-form"></div>
     <div id="student-cards"></div>
+    <div id="student-cards-army"></div>
     `;
   printToDOM("#app", initialHTML);
 };
