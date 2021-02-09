@@ -4,40 +4,25 @@ const army = [];
 
 const deathHouse = {
   name: "Voldemort's Army",
-  extra: {
-    founder: "Godric Gryffindor",
-    colors: ["violet", "black"],
-  },
+  className: "voldey-card",
 };
 
 const houses = [
   {
     name: "Gryffindor",
-    extra: {
-      founder: "Godric Gryffindor",
-      colors: ["scarlet", "gold"],
-    },
+    className: "gryffindor-card",
   },
   {
     name: "Hufflepuff",
-    extra: {
-      founder: "Helga Hufflepuff",
-      colors: ["yellow", "black"],
-    },
+    className: "hufflepuff-card",
   },
   {
     name: "Ravenclaw",
-    extra: {
-      fullName: "Rowena Ravenclaw",
-      colors: ["blue", "bronze"],
-    },
+    className: "ravenclaw-card",
   },
   {
     name: "Slytherin",
-    extra: {
-      fullName: "Salazar Slytherin",
-      colors: ["green", "silver"],
-    },
+    className: "slytherin-card",
   },
 ];
 
@@ -87,13 +72,13 @@ const formHTML = () => `
 `;
 
 const studentCardHTML = (studentObj) => `
-    <div class="card" style="width: 18rem;">
+    <div class="card student-card ${studentObj.house.className}" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">${studentObj.studentName}</h5>
             <p class="card-text">${studentObj.house.name}</p>
             ${
               studentObj.canExpel
-                ? `<button class="btn btn-primary mb-2" id="expel--${studentObj.uuid}">Expel</button>`
+                ? `<button class="btn ${studentObj.house.className}-button mb-2" id="expel--${studentObj.uuid}">Expel</button>`
                 : ""
             }
         </div>
@@ -156,11 +141,11 @@ const handleToggleColumn = (e) => {
   if (targetId === "toggle-first-years") {
     firstYearsSelector.classList.remove("first-years-column-hidden");
     voldeysSelector.classList.add("voldeys-column-hidden");
-    firstYearsButtonSelector.classList.add("active");
     voldeysButtonSelector.classList.remove("active");
+    firstYearsButtonSelector.classList.add("active");
   } else if (targetId === "toggle-voldeys-army") {
+      voldeysSelector.classList.remove("voldeys-column-hidden");
     firstYearsSelector.classList.add("first-years-column-hidden");
-    voldeysSelector.classList.remove("voldeys-column-hidden");
     firstYearsButtonSelector.classList.remove("active");
     voldeysButtonSelector.classList.add("active");
   }
