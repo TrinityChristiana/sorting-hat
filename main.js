@@ -32,7 +32,7 @@ const houses = [
   },
 ];
 
-// Global Functions
+// Helper Functions
 const printToDOM = (query, newHTML) => {
   document.querySelector(query).innerHTML = newHTML;
 };
@@ -51,7 +51,7 @@ const createStudentObj = (studentName) => {
   };
 };
 
-// HTML Functions
+// Components
 const jumbotronHTML = () =>
   `<div class="jumbotron">
         <h1 class="display-4">Welcome to Hoggy Warts</h1>
@@ -85,11 +85,11 @@ const studentCardHTML = (studentObj) => `
     </div>
 `;
 
-const cardListFactory = () =>
+const studentCardListHTML = () =>
   students.map((student) => studentCardHTML(student)).join("");
 
 const rerenderCards = () => {
-  printToDOM("#student-cards", cardListFactory());
+  printToDOM("#student-cards", studentCardListHTML());
 };
 
 // Event Callbacks
@@ -97,6 +97,7 @@ const handleSubmitStudentForm = (e) => {
   e.preventDefault();
   const studentName = document.querySelector("#studentName").value;
   students.push(createStudentObj(studentName));
+  rerenderCards();
 };
 
 const handleToggleForm = () => {
@@ -108,9 +109,23 @@ const handleToggleForm = () => {
   );
 };
 
+const handleCardClick = (e) => {
+  const targetType = e.target.type;
+  const targetId = e.target.id;
+  if (targetType === "submit" && targetId.startsWith("expel--")) {
+    const itemId = targetId.split("--")[1];
+    const targetStudentIndex = students.findIndex(
+      (student) => student.uuid === itemId
+    );
+    students.splice(targetStudentIndex, 1);
+    rerenderCards();
+  }
+};
+
 // Functions that run initially
 const addInitialEventListeners = () => {
   createEventListener("#sorting-button", handleToggleForm);
+  createEventListener("#student-cards", handleCardClick);
 };
 
 const printInitialHTML = () => {
