@@ -90,9 +90,9 @@ const studentCardHTML = (studentObj) => `
 const studentCardListHTML = (studentArray) =>
   studentArray.map((student) => studentCardHTML(student)).join("");
 
-const rerenderCards = () => {
-  printToDOM("#student-cards", studentCardListHTML(students));
-  printToDOM("#student-cards-army", studentCardListHTML(army));
+const rerenderCards = (studentsArray = students, armyArray = army) => {
+  printToDOM("#student-cards", studentCardListHTML(studentsArray));
+  printToDOM("#student-cards-army", studentCardListHTML(armyArray));
 };
 
 // Event Callbacks
@@ -101,7 +101,7 @@ const handleSubmitStudentForm = (e) => {
   const studentInput = document.querySelector("#studentName");
   const studentName = studentInput.value;
   studentInput.value = "";
-  students.push(createStudentObj(studentName));
+  students.unshift(createStudentObj(studentName));
   rerenderCards();
 };
 
@@ -124,7 +124,7 @@ const handleCardClick = (e) => {
       (student) => student.uuid === itemId
     );
     const expelledStudent = students.splice(targetStudentIndex, 1);
-    army.push(
+    army.unshift(
       Object.assign(...expelledStudent, { canExpel: false, house: houses[4] })
     );
     rerenderCards();
@@ -152,6 +152,49 @@ const handleToggleColumn = (e) => {
     voldeysButtonSelector.classList.add("active");
   }
 };
+const filterHouse = (studentArray, house) => {
+  const filteredStudents = studentArray.filter(
+    (student) => student.house.name.toLowerCase() === house
+  );
+  return [filteredStudents, []];
+};
+
+const handleOptionButtons = (e) => {
+  const targetType = e.target.type;
+
+  if (targetType === "button") {
+    const targetId = e.target.id.split("--")[0];
+    let newStudents = [...students];
+    let newArmy = [...army];
+
+    if (targetId === "alphabetically") {
+      newStudents.sort((a, b) =>
+        a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
+      );
+      newArmy.sort((a, b) =>
+        a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
+      );
+    } else if (targetId === "house") {
+      newStudents.sort((a, b) => {
+        return a.house.name.toLowerCase() > b.house.name.toLowerCase()
+          ? 1
+          : a.house.name.toLowerCase() < b.house.name.toLowerCase()
+          ? -1
+          : a.studentName.toLowerCase() > b.studentName.toLowerCase()
+          ? 1
+          : -1;
+      });
+      newArmy.sort((a, b) =>
+        a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
+      );
+    } else if (targetId === "voldemorts") {
+      [newArmy, newStudents] = filterHouse(army, "voldemort's army");
+    } else {
+      [newStudents, newArmy] = filterHouse(newStudents, targetId);
+    }
+    rerenderCards(newStudents, newArmy);
+  }
+};
 
 // Functions that run initially
 const addInitialEventListeners = () => {
@@ -159,11 +202,31 @@ const addInitialEventListeners = () => {
   createEventListener("#student-cards", handleCardClick);
   createEventListener("#toggle-voldeys-army", handleToggleColumn);
   createEventListener("#toggle-first-years", handleToggleColumn);
+  createEventListener("#option-buttons", handleOptionButtons);
 };
 
 const printInitialHTML = () => {
+  const filters = [
+    "Original",
+    "Alphabetically",
+    "House",
+    "Gryffindor",
+    "Hufflepuff",
+    "Ravenclaw",
+    "Slytherin",
+    "Voldemorts",
+  ];
   const initialHTML = `
     ${jumbotronHTML()}
+    <div id="option-buttons" class="option-buttons-container">
+    <h2> Sort By: </h2>    
+    ${filters
+      .map(
+        (filter) =>
+          `<button id="${filter.toLowerCase()}--filter" type="button" class="btn ${filter.toLowerCase()}-filter-button">${filter}</button>`
+      )
+      .join("")}
+    </div>
     <div class="column-toggler">
         <button id="toggle-first-years" class="column-toggler btn btn-outline-success active">First Years</button>
         <button id="toggle-voldeys-army" class="column-toggler btn btn-outline-success" type="button" >Voldey's Army</button>
