@@ -95,7 +95,9 @@ const rerenderCards = () => {
 // Event Callbacks
 const handleSubmitStudentForm = (e) => {
   e.preventDefault();
-  const studentName = document.querySelector("#studentName").value;
+  const studentInput = document.querySelector("#studentName");
+  const studentName = studentInput.value;
+  studentInput.value = "";
   students.push(createStudentObj(studentName));
   rerenderCards();
 };
