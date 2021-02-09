@@ -2,11 +2,6 @@
 const students = [];
 const army = [];
 
-const deathHouse = {
-  name: "Voldemort's Army",
-  className: "voldey-card",
-};
-
 const houses = [
   {
     name: "Gryffindor",
@@ -24,6 +19,10 @@ const houses = [
     name: "Slytherin",
     className: "slytherin-card",
   },
+  {
+    name: "Voldemort's Army",
+    className: "voldey-card",
+  },
 ];
 
 // Helper Functions
@@ -35,7 +34,8 @@ const createEventListener = (query, callbackFn, action = "click") => {
   document.querySelector(query).addEventListener(action, callbackFn);
 };
 
-const getRandomHouse = () => houses[Math.floor(Math.random() * houses.length)];
+const getRandomHouse = () =>
+  houses[Math.floor(Math.random() * (houses.length - 1))];
 
 const createStudentObj = (studentName) => {
   return {
@@ -72,7 +72,9 @@ const formHTML = () => `
 `;
 
 const studentCardHTML = (studentObj) => `
-    <div class="card student-card ${studentObj.house.className}" style="width: 18rem;">
+    <div class="card student-card ${
+      studentObj.house.className
+    }" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">${studentObj.studentName}</h5>
             <p class="card-text">${studentObj.house.name}</p>
@@ -123,7 +125,7 @@ const handleCardClick = (e) => {
     );
     const expelledStudent = students.splice(targetStudentIndex, 1);
     army.push(
-      Object.assign(...expelledStudent, { canExpel: false, house: deathHouse })
+      Object.assign(...expelledStudent, { canExpel: false, house: houses[4] })
     );
     rerenderCards();
   }
@@ -144,7 +146,7 @@ const handleToggleColumn = (e) => {
     voldeysButtonSelector.classList.remove("active");
     firstYearsButtonSelector.classList.add("active");
   } else if (targetId === "toggle-voldeys-army") {
-      voldeysSelector.classList.remove("voldeys-column-hidden");
+    voldeysSelector.classList.remove("voldeys-column-hidden");
     firstYearsSelector.classList.add("first-years-column-hidden");
     firstYearsButtonSelector.classList.remove("active");
     voldeysButtonSelector.classList.add("active");
