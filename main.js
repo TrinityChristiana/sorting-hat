@@ -85,25 +85,21 @@ const studentCardHTML = (studentObj) => `
     </div>
 `;
 
-const cardListFactory = () => {
-  return students.map((student) => studentCardHTML(student)).join("");
-};
+const cardListFactory = () =>
+  students.map((student) => studentCardHTML(student)).join("");
 
 const rerenderCards = () => {
-  const cardsHTML = cardListFactory();
-  console.log(cardsHTML);
-  printToDOM("#student-cards", cardsHTML);
+  printToDOM("#student-cards", cardListFactory());
 };
 
 // Event Callbacks
 const handleSubmitStudentForm = (e) => {
   e.preventDefault();
   const studentName = document.querySelector("#studentName").value;
-  const studentObj = createStudentObj(studentName);
-  students.push(studentObj);
+  students.push(createStudentObj(studentName));
 };
 
-const handleToggleForm = (e) => {
+const handleToggleForm = () => {
   printToDOM("#student-form", formHTML());
   createEventListener(
     "#submit-sort-student",
