@@ -54,6 +54,13 @@ const createStudentObj = (studentName) => {
   };
 };
 
+const filterHouse = (studentArray, house) => {
+  const filteredStudents = studentArray.filter(
+    (student) => student.house.name.toLowerCase() === house
+  );
+  return [filteredStudents, []];
+};
+
 // Components
 const jumbotronHTML = () =>
   `<div class="jumbotron " id="jumbotron-container">
@@ -140,6 +147,7 @@ const cardContainer = () => {
 const studentCardListHTML = (studentArray) =>
   studentArray.map((student) => studentCardHTML(student)).join("");
 
+// Rendering functions
 const rerenderCards = (studentsArray = students, armyArray = army) => {
   printToDOM("#student-cards", studentCardListHTML(studentsArray));
   printToDOM("#student-cards-army", studentCardListHTML(armyArray));
@@ -210,12 +218,6 @@ const handleToggleColumn = (e) => {
     firstYearsButtonSelector.classList.remove("active");
     voldeysButtonSelector.classList.add("active");
   }
-};
-const filterHouse = (studentArray, house) => {
-  const filteredStudents = studentArray.filter(
-    (student) => student.house.name.toLowerCase() === house
-  );
-  return [filteredStudents, []];
 };
 
 const handleOptionButtons = (e) => {
