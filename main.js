@@ -114,9 +114,9 @@ const cardContainer = () => {
     </div>
   </div>
       </div>
-      <div class="column-toggler">
-          <button id="toggle-first-years" class="column-toggler btn btn-outline-success active">First Years</button>
-          <button id="toggle-voldeys-army" class="column-toggler btn btn-outline-success" type="button" >Voldey's Army</button>
+      <div class="column-toggler" id="column-toggler-container">
+          <button id="toggle-first-years" class="btn btn-secondary active">First Years</button>
+          <button id="toggle-voldeys-army" class="btn btn-secondary" type="button" >Voldey's Army</button>
       </div>
       <div class="card-containers">
           <div id="first-years-column" class="card-column">
@@ -254,21 +254,26 @@ const handleDarkMode = () => {
   const bodySelector = document.querySelector("body");
   const jumbotronSelector = document.querySelector("#jumbotron-container");
   const buttonSelector = document.querySelector("#dark-mode");
+  const columnTogglerSelector = document.querySelector(
+    "#column-toggler-container"
+  );
   const styleStrings = {
     dark: "background-color: #000000; color: #ffffff",
     light: "background-color: #e9ecef; color: #000000",
   };
 
   if (bodySelector.style.backgroundColor === "rgb(0, 0, 0)") {
-    buttonSelector.style = styleStrings.dark;
     buttonSelector.textContent = "Dark Mode";
+    buttonSelector.style = styleStrings.dark;
     bodySelector.style = styleStrings.light;
     jumbotronSelector.style = styleStrings.light;
+    if (columnTogglerSelector) columnTogglerSelector.style = styleStrings.light;
   } else {
     buttonSelector.style = styleStrings.light;
     buttonSelector.textContent = "Light Mode";
     bodySelector.style = styleStrings.dark;
     jumbotronSelector.style = styleStrings.dark;
+    if (columnTogglerSelector) columnTogglerSelector.style = styleStrings.dark;
   }
 };
 

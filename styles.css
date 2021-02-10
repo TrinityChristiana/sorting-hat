@@ -102,7 +102,6 @@ body {
     justify-content: center;
     position: sticky;
     top: 0px;
-    background-color: #e9ecef;
     z-index: 10;
   }
 }
