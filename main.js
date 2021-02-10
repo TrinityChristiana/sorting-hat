@@ -99,19 +99,17 @@ const cardContainer = () => {
     "Voldemorts",
   ];
   return `
-  <div id="option-buttons" class="option-buttons-container">
-      <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Sort By
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      ${filters
-        .map(
-          (filter) =>
-            `<a id="${filter.toLowerCase()}--filter" type="button" class="dropdown-item ${filter.toLowerCase()}-filter-button">${filter}</a>`
-        )
-        .join("")}
-    </div>
+  <div class="form-group option-buttons-container">
+    <label for="option-buttons">Select Order: </label>
+    <select class="form-control" id="option-buttons">
+    ${filters
+      .map(
+        (filter) =>
+          `<option id="${filter.toLowerCase()}--filter" type="button" value="${filter.toLowerCase()}" class="${filter.toLowerCase()}-filter-button">${filter}</option>`
+      )
+      .join("")}
+  </select> 
+  </div>
   </div>
       </div>
       <div class="column-toggler" id="column-toggler-container">
@@ -144,7 +142,7 @@ const renderCardContainers = () => {
   createEventListener("#student-cards", handleCardClick);
   createEventListener("#toggle-voldeys-army", handleToggleColumn);
   createEventListener("#toggle-first-years", handleToggleColumn);
-  createEventListener("#option-buttons", handleOptionButtons);
+  createEventListener("#option-buttons", handleOptionButtons, "input");
 };
 
 // Event Callbacks
@@ -213,41 +211,37 @@ const filterHouse = (studentArray, house) => {
 };
 
 const handleOptionButtons = (e) => {
-  const targetType = e.target.type;
+  const targetValue = e.target.value;
+  let newStudents = [...students];
+  let newArmy = [...army];
 
-  if (targetType === "button") {
-    const targetId = e.target.id.split("--")[0];
-    let newStudents = [...students];
-    let newArmy = [...army];
-
-    if (targetId === "alphabetically") {
-      newStudents.sort((a, b) =>
-        a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
-      );
-      newArmy.sort((a, b) =>
-        a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
-      );
-    } else if (targetId === "house") {
-      newStudents.sort((a, b) => {
-        return a.house.name.toLowerCase() > b.house.name.toLowerCase()
-          ? 1
-          : a.house.name.toLowerCase() < b.house.name.toLowerCase()
-          ? -1
-          : a.studentName.toLowerCase() > b.studentName.toLowerCase()
-          ? 1
-          : -1;
-      });
-      newArmy.sort((a, b) =>
-        a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
-      );
-    } else if (targetId === "voldemorts") {
-      [newArmy, newStudents] = filterHouse(army, "voldemort's army");
-    } else if (targetId === "original") {
-    } else {
-      [newStudents, newArmy] = filterHouse(newStudents, targetId);
-    }
-    rerenderCards(newStudents, newArmy);
+  if (targetValue === "alphabetically") {
+    newStudents.sort((a, b) =>
+      a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
+    );
+    newArmy.sort((a, b) =>
+      a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
+    );
+  } else if (targetValue === "house") {
+    newStudents.sort((a, b) => {
+      return a.house.name.toLowerCase() > b.house.name.toLowerCase()
+        ? 1
+        : a.house.name.toLowerCase() < b.house.name.toLowerCase()
+        ? -1
+        : a.studentName.toLowerCase() > b.studentName.toLowerCase()
+        ? 1
+        : -1;
+    });
+    newArmy.sort((a, b) =>
+      a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
+    );
+  } else if (targetValue === "voldemorts") {
+    [newArmy, newStudents] = filterHouse(army, "voldemort's army");
+  } else if (targetValue === "original") {
+  } else {
+    [newStudents, newArmy] = filterHouse(newStudents, targetValue);
   }
+  rerenderCards(newStudents, newArmy);
 };
 
 const handleDarkMode = () => {
