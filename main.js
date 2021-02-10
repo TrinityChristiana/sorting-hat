@@ -48,7 +48,7 @@ const createStudentObj = (studentName) => {
 
 // Components
 const jumbotronHTML = () =>
-  `<div class="jumbotron">
+  `<div class="jumbotron" id="jumbotron-container">
         <h1 class="display-4">Welcome to Hoggy Warts</h1>
         <p class="lead">
             Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.
@@ -243,7 +243,6 @@ const handleOptionButtons = (e) => {
     } else if (targetId === "voldemorts") {
       [newArmy, newStudents] = filterHouse(army, "voldemort's army");
     } else if (targetId === "original") {
-      
     } else {
       [newStudents, newArmy] = filterHouse(newStudents, targetId);
     }
@@ -251,13 +250,37 @@ const handleOptionButtons = (e) => {
   }
 };
 
+const handleDarkMode = () => {
+  const bodySelector = document.querySelector("body");
+  const jumbotronSelector = document.querySelector("#jumbotron-container");
+  const buttonSelector = document.querySelector("#dark-mode");
+  const styleStrings = {
+    dark: "background-color: #000000; color: #ffffff",
+    light: "background-color: #e9ecef; color: #000000",
+  };
+
+  if (bodySelector.style.backgroundColor === "rgb(0, 0, 0)") {
+    buttonSelector.style = styleStrings.dark;
+    buttonSelector.textContent = "Dark Mode";
+    bodySelector.style = styleStrings.light;
+    jumbotronSelector.style = styleStrings.light;
+  } else {
+    buttonSelector.style = styleStrings.light;
+    buttonSelector.textContent = "Light Mode";
+    bodySelector.style = styleStrings.dark;
+    jumbotronSelector.style = styleStrings.dark;
+  }
+};
+
 // Functions that run initially
 const addInitialEventListeners = () => {
   createEventListener("#sorting-button", handleToggleForm);
+  createEventListener("#dark-mode", handleDarkMode);
 };
 
 const printInitialHTML = () => {
   const initialHTML = `
+    <button class="btn btn-dark" type="button" id="dark-mode">Dark Mode</button>
     ${jumbotronHTML()}
     <div id="card-container-div">
     </div>
