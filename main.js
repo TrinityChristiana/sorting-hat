@@ -243,7 +243,6 @@ const handleOptionButtons = (e) => {
     } else if (targetId === "voldemorts") {
       [newArmy, newStudents] = filterHouse(army, "voldemort's army");
     } else if (targetId === "original") {
-      
     } else {
       [newStudents, newArmy] = filterHouse(newStudents, targetId);
     }
@@ -262,10 +261,12 @@ const handleDarkMode = () => {
 
   if (bodySelector.style.backgroundColor === "rgb(0, 0, 0)") {
     buttonSelector.style = styleStrings.dark;
+    buttonSelector.textContent = "Dark Mode";
     bodySelector.style = styleStrings.light;
     jumbotronSelector.style = styleStrings.light;
   } else {
     buttonSelector.style = styleStrings.light;
+    buttonSelector.textContent = "Light Mode";
     bodySelector.style = styleStrings.dark;
     jumbotronSelector.style = styleStrings.dark;
   }
