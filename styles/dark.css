@@ -1,0 +1,19 @@
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.jumbotron-container {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.dark-mode-toggler {
+  background-color: #e9ecef;
+  color: #000000;
+}
+
+.column-toggler {
+  background-color: #000000;
+  color: #ffffff;
+}
