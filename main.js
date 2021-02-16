@@ -7,24 +7,24 @@ const army = [];
 
 const houses = [
   {
-    name: "Gryffindor",
-    className: "gryffindor-card",
+    name: 'Gryffindor',
+    className: 'gryffindor-card',
   },
   {
-    name: "Hufflepuff",
-    className: "hufflepuff-card",
+    name: 'Hufflepuff',
+    className: 'hufflepuff-card',
   },
   {
-    name: "Ravenclaw",
-    className: "ravenclaw-card",
+    name: 'Ravenclaw',
+    className: 'ravenclaw-card',
   },
   {
-    name: "Slytherin",
-    className: "slytherin-card",
+    name: 'Slytherin',
+    className: 'slytherin-card',
   },
   {
     name: "Voldemort's Army",
-    className: "voldey-card",
+    className: 'voldey-card',
   },
 ];
 
@@ -33,7 +33,7 @@ const printToDOM = (query, newHTML) => {
   document.querySelector(query).innerHTML = newHTML;
 };
 
-const createEventListener = (query, callbackFn, action = "click") => {
+const createEventListener = (query, callbackFn, action = 'click') => {
   document.querySelector(query).addEventListener(action, callbackFn);
 };
 
@@ -41,8 +41,8 @@ const getRandomHouse = () =>
   houses[Math.floor(Math.random() * (houses.length - 1))];
 
 const getRandomSaying = () =>
-  loremIpsum.split(".")[
-    Math.floor(Math.random() * loremIpsum.split(".").length)
+  loremIpsum.split('.')[
+    Math.floor(Math.random() * loremIpsum.split('.').length)
   ];
 
 const createStudentObj = (studentName) => {
@@ -63,10 +63,10 @@ const filterHouse = (studentArray, house) => {
 
 // Components
 const jumbotronHTML = () =>
-  `<div class="jumbotron " id="jumbotron-container">
+  `<div class="jumbotron jumbotron-container">
         <h1 class="display-4">Welcome to Hoggy Warts</h1>
         <p class="lead">
-            ${getRandomSaying() || "Palominos scarlet train black robes,"}
+            ${getRandomSaying() || 'Palominos scarlet train black robes,'}
         </p>
         <hr class="my-4">
         <div class="lead" id="sort-button-container">
@@ -96,7 +96,7 @@ const studentCardHTML = (studentObj) => `
             ${
               studentObj.canExpel
                 ? `<button class="btn ${studentObj.house.className}-button mb-2" id="expel--${studentObj.uuid}">Expel</button>`
-                : ""
+                : ''
             }
         </div>
     </div>
@@ -104,14 +104,14 @@ const studentCardHTML = (studentObj) => `
 
 const cardContainer = () => {
   const filters = [
-    "Original",
-    "Alphabetically",
-    "House",
-    "Gryffindor",
-    "Hufflepuff",
-    "Ravenclaw",
-    "Slytherin",
-    "Voldemorts",
+    'Original',
+    'Alphabetically',
+    'House',
+    'Gryffindor',
+    'Hufflepuff',
+    'Ravenclaw',
+    'Slytherin',
+    'Voldemorts',
   ];
   return `
   <div class="form-group option-buttons-container">
@@ -122,12 +122,12 @@ const cardContainer = () => {
         (filter) =>
           `<option id="${filter.toLowerCase()}--filter" type="button" value="${filter.toLowerCase()}" class="${filter.toLowerCase()}-filter-button">${filter}</option>`
       )
-      .join("")}
+      .join('')}
   </select> 
   </div>
   </div>
       </div>
-      <div class="column-toggler" id="column-toggler-container">
+      <div class="column-toggler">
           <button id="toggle-first-years" class="btn btn-secondary active">First Years</button>
           <button id="toggle-voldeys-army" class="btn btn-secondary" type="button" >Voldey's Army</button>
       </div>
@@ -145,48 +145,48 @@ const cardContainer = () => {
 };
 
 const studentCardListHTML = (studentArray) =>
-  studentArray.map((student) => studentCardHTML(student)).join("");
+  studentArray.map((student) => studentCardHTML(student)).join('');
 
 // Rendering functions
 const rerenderCards = (studentsArray = students, armyArray = army) => {
-  printToDOM("#student-cards", studentCardListHTML(studentsArray));
-  printToDOM("#student-cards-army", studentCardListHTML(armyArray));
+  printToDOM('#student-cards', studentCardListHTML(studentsArray));
+  printToDOM('#student-cards-army', studentCardListHTML(armyArray));
 };
 
 const renderCardContainers = () => {
-  printToDOM("#card-container-div", cardContainer());
-  createEventListener("#student-cards", handleCardClick);
-  createEventListener("#toggle-voldeys-army", handleToggleColumn);
-  createEventListener("#toggle-first-years", handleToggleColumn);
-  createEventListener("#option-buttons", handleOptionButtons, "input");
+  printToDOM('#card-container-div', cardContainer());
+  createEventListener('#student-cards', handleCardClick);
+  createEventListener('#toggle-voldeys-army', handleToggleColumn);
+  createEventListener('#toggle-first-years', handleToggleColumn);
+  createEventListener('#option-buttons', handleOptionButtons, 'input');
 };
 
 // Event Callbacks
 const handleSubmitStudentForm = (e) => {
   e.preventDefault();
-  const studentInput = document.querySelector("#studentName");
+  const studentInput = document.querySelector('#studentName');
   const studentName = studentInput.value;
-  studentInput.value = "";
+  studentInput.value = '';
   students.unshift(createStudentObj(studentName));
   renderCardContainers();
   rerenderCards();
 };
 
 const handleToggleForm = () => {
-  printToDOM("#student-form", formHTML());
-  printToDOM("#sort-button-container", "");
+  printToDOM('#student-form', formHTML());
+  printToDOM('#sort-button-container', '');
   createEventListener(
-    "#submit-sort-student",
+    '#submit-sort-student',
     handleSubmitStudentForm,
-    "submit"
+    'submit'
   );
 };
 
 const handleCardClick = (e) => {
   const targetType = e.target.type;
   const targetId = e.target.id;
-  if (targetType === "submit" && targetId.startsWith("expel--")) {
-    const itemId = targetId.split("--")[1];
+  if (targetType === 'submit' && targetId.startsWith('expel--')) {
+    const itemId = targetId.split('--')[1];
     const targetStudentIndex = students.findIndex(
       (student) => student.uuid === itemId
     );
@@ -200,23 +200,23 @@ const handleCardClick = (e) => {
 
 const handleToggleColumn = (e) => {
   const targetId = e.target.id;
-  const firstYearsSelector = document.querySelector("#first-years-column");
+  const firstYearsSelector = document.querySelector('#first-years-column');
   const firstYearsButtonSelector = document.querySelector(
-    "#toggle-first-years"
+    '#toggle-first-years'
   );
-  const voldeysSelector = document.querySelector("#voldeys-column");
-  const voldeysButtonSelector = document.querySelector("#toggle-voldeys-army");
+  const voldeysSelector = document.querySelector('#voldeys-column');
+  const voldeysButtonSelector = document.querySelector('#toggle-voldeys-army');
 
-  if (targetId === "toggle-first-years") {
-    firstYearsSelector.classList.remove("first-years-column-hidden");
-    voldeysSelector.classList.add("voldeys-column-hidden");
-    voldeysButtonSelector.classList.remove("active");
-    firstYearsButtonSelector.classList.add("active");
-  } else if (targetId === "toggle-voldeys-army") {
-    voldeysSelector.classList.remove("voldeys-column-hidden");
-    firstYearsSelector.classList.add("first-years-column-hidden");
-    firstYearsButtonSelector.classList.remove("active");
-    voldeysButtonSelector.classList.add("active");
+  if (targetId === 'toggle-first-years') {
+    firstYearsSelector.classList.remove('first-years-column-hidden');
+    voldeysSelector.classList.add('voldeys-column-hidden');
+    voldeysButtonSelector.classList.remove('active');
+    firstYearsButtonSelector.classList.add('active');
+  } else if (targetId === 'toggle-voldeys-army') {
+    voldeysSelector.classList.remove('voldeys-column-hidden');
+    firstYearsSelector.classList.add('first-years-column-hidden');
+    firstYearsButtonSelector.classList.remove('active');
+    voldeysButtonSelector.classList.add('active');
   }
 };
 
@@ -225,14 +225,14 @@ const handleOptionButtons = (e) => {
   let newStudents = [...students];
   let newArmy = [...army];
 
-  if (targetValue === "alphabetically") {
+  if (targetValue === 'alphabetically') {
     newStudents.sort((a, b) =>
       a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
     );
     newArmy.sort((a, b) =>
       a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
     );
-  } else if (targetValue === "house") {
+  } else if (targetValue === 'house') {
     newStudents.sort((a, b) => {
       return a.house.name.toLowerCase() > b.house.name.toLowerCase()
         ? 1
@@ -245,9 +245,9 @@ const handleOptionButtons = (e) => {
     newArmy.sort((a, b) =>
       a.studentName.toLowerCase() > b.studentName.toLowerCase() ? 1 : -1
     );
-  } else if (targetValue === "voldemorts") {
+  } else if (targetValue === 'voldemorts') {
     [newArmy, newStudents] = filterHouse(army, "voldemort's army");
-  } else if (targetValue === "original") {
+  } else if (targetValue === 'original') {
   } else {
     [newStudents, newArmy] = filterHouse(newStudents, targetValue);
   }
@@ -255,46 +255,32 @@ const handleOptionButtons = (e) => {
 };
 
 const handleDarkMode = () => {
-  const bodySelector = document.querySelector("body");
-  const jumbotronSelector = document.querySelector("#jumbotron-container");
-  const buttonSelector = document.querySelector("#dark-mode");
-  const columnTogglerSelector = document.querySelector(
-    "#column-toggler-container"
-  );
-  const styleStrings = {
-    dark: "background-color: #000000; color: #ffffff",
-    light: "background-color: #e9ecef; color: #000000",
-  };
+  const buttonSelector = document.querySelector('#dark-mode');
+  const styleSelector = document.querySelector('#dark-toggler-styles');
 
-  if (bodySelector.style.backgroundColor === "rgb(0, 0, 0)") {
-    buttonSelector.textContent = "Dark Mode";
-    buttonSelector.style = styleStrings.dark;
-    bodySelector.style = styleStrings.light;
-    jumbotronSelector.style = styleStrings.light;
-    if (columnTogglerSelector) columnTogglerSelector.style = styleStrings.light;
+  if (styleSelector.href.includes('normal.css')) {
+    styleSelector.href = 'styles/dark.css';
+    buttonSelector.textContent = 'Light Mode';
   } else {
-    buttonSelector.style = styleStrings.light;
-    buttonSelector.textContent = "Light Mode";
-    bodySelector.style = styleStrings.dark;
-    jumbotronSelector.style = styleStrings.dark;
-    if (columnTogglerSelector) columnTogglerSelector.style = styleStrings.dark;
+    styleSelector.href = 'styles/normal.css';
+    buttonSelector.textContent = 'Dark Mode';
   }
 };
 
 // Functions that run initially
 const addInitialEventListeners = () => {
-  createEventListener("#sorting-button", handleToggleForm);
-  createEventListener("#dark-mode", handleDarkMode);
+  createEventListener('#sorting-button', handleToggleForm);
+  createEventListener('#dark-mode', handleDarkMode);
 };
 
 const printInitialHTML = () => {
   const initialHTML = `
-    <button class="btn btn-dark" type="button" id="dark-mode">Dark Mode</button>
+    <button class="btn dark-mode-toggler" id="dark-mode" type="button">Dark Mode</button>
     ${jumbotronHTML()}
     <div id="card-container-div">
     </div>
     `;
-  printToDOM("#app", initialHTML);
+  printToDOM('#app', initialHTML);
 };
 
 const init = () => {
